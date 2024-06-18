@@ -1,7 +1,7 @@
 #  Anime Recommender
 
 ## Overview
-In this project, we aim to do Anime Recommandation. It was carried out as part of the Smart project. To check for the details please check out the file 'Projet_SMART_2024.pdf' present in the same folder
+In this project, we aim to do Anime Recommandation. It was carried out as part of the Smart project. To check for the details please check out the file 'Projet_SMART_2024.pdf' present in the 'documentation' folder
 
 
 ### Steps to Use the Application
