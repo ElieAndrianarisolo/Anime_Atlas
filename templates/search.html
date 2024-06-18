@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.12"
+            integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='search.js') }}"></script>
+
+
+    <style>
+        #container {
+            display: flex;
+        }
+
+        #filter-section {
+            width: 20%;
+        }
+
+        #result-section {
+            width: 80%;
+        }
+    </style>
+    <title>Search result</title>
+</head>
+<body>
+<div id="header">
+    <h1><a href="/">Anime Atlas</a></h1>
+    <h2><a href="/recommendations">Recommend me</a></h2>
+    <h2><a href="/home-chatbot">Chat</a></h2>
+    <form action="/description" method="post">
+        <input type="text" name="Mod_name" placeholder="Enter anime name" list="anime-suggestions">
+        <datalist id="anime-suggestions">
+            <!-- Suggestions will be dynamically filled here -->
+        </datalist>
+        <button type="submit" class="search-button">Search</button>
+    </form>
+</div>
+
+<div id="container">
+    <div id="container-filters">
+        <div id="filter-section" class="filter-section">
+            <h2 class="title-search-filters">Filters</h2>
+            <form id="filter-form" action="/filter" method="get" hx-get="/filter" hx-target="#result-section" hx-indicator="#loading">
+                <input type="hidden" name="Mod_name" id="modNameInput">
+                <div class="filter-subsection">
+                    <label for="genre" class="filter-section-title">Genre&nbsp;:</label>
+                    <select title="Select Genre" name="genre" class="custom-select">
+                        <option value="">Select Genre</option>
+                        <option value="Action">Action</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Music">Music</option>
+                        <option value="Romance">Romance</option>
+                        <option value="School">School</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Sports">Sports</option>
+                    </select>
+                </div>
+                <div class="filter-subsection">
+                    <label for="type" class="filter-section-title">Type&nbsp;:</label>
+                    <select title="Select Type" name="type" class="custom-select">
+                        <option value="">Select Type</option>
+                        <option value="TV">TV</option>
+                        <option value="Movie">Movie</option>
+                        <option value="Music">Music</option>
+                        <option value="ONA">ONA</option>
+                        <option value="OVA">OVA</option>
+                        <option value="Special">Special</option>
+                    </select>
+                </div>
+                <div class="filter-subsection">
+                    <label for="rating" class="filter-section-title">Rating&nbsp;:</label>
+                    <select title="Select Rating" name="rating" class="custom-select">
+                        <option value="">Select Rating</option>
+                        <option value="R-17">R - 17+ (violence & profanity)</option>
+                        <option value="PG-13">PG-13 - Teens 13 or older</option>
+                        <option value="G">G - All Ages</option>
+                        <option value="PG">PG - Children</option>
+                        <option value="R+">R+ - Mild Nudity</option>
+                        <option value="Rx">Rx - Hentai</option>
+                    </select>
+                </div>
+                <button type="submit" class="apply-filter-button">Apply filters</button>
+            </form>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Fetch 'Mod_name' from the URL query parameters
+                    const params = new URLSearchParams(window.location.search);
+                    const modName = params.get('Mod_name');
+
+                    // Set the hidden input value
+                    document.getElementById('modNameInput').value = modName;
+                });
+            </script>
+
+        </div>
+    </div>
+    <div id="result-section">
+        
+        <div id="loading" class="loading">Loading...</div>
+        <div class="center-text">
+            <h2 class="title-search">Search results</h2>
+        </div>
+        <!-- Results will be loaded here -->
+
+            {% if results %}
+                {% for anime in results %}
+                    <div class="overlay">
+                        <h1>
+                            <a class="title-anime" href="/description?Mod_name={{ anime['Mod_name'] }}">
+                                {% if anime['English name'] == "UNKNOWN" %}
+                                    {{ anime['Name'] }}
+                                {% else %}
+                                    {{ anime['English name'] }}
+                                {% endif %}
+                            </a>
+                        </h1>
+                        <div class="anime-display">
+                            <img src="{{ anime['Image URL'] }}" alt="{{ anime['Name'] }}" class="img-fluid image-search-page">
+                            <div class="anime-info">
+                                <p><strong>Synopsis&nbsp;:</strong> {{ anime['Synopsis'] }}</p>
+                                <p><strong>Genres&nbsp;:</strong> {{ anime['Genres'] }}</p>
+                                <p><strong>Type&nbsp;:</strong> {{ anime['Type'] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% else %}
+                <div class="center-text">
+                    <h2 class="no-results-found">No results found.</h2>
+                </div>
+                {% endif %}
+        </div>
+    </div>
+</body>
+</html>

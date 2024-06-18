@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="/static/style-home-chatbot.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='search.js')}}"></script>
+    
+    <div id="header">
+        <h1><a href="/">Anime Atlas</a></h1>
+        <h2><a href="/recommendations">Recommend me</a></h2>
+        <h2><a href="/home-chatbot">Chat</a></h2>
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="Mod_name" placeholder="Enter anime name" list="anime-suggestions">
+            <datalist id="anime-suggestions">
+                <!-- Suggestions will be dynamically filled here -->
+            </datalist>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+
+</head>
+<body>
+    <div id="home-chatbot-blurry-box" class="home-chatbot-box-center">
+        <div class="container">
+            <h1>Let's find the best anime for you</h1>
+            <p>Choose the chatbot you would like to use :</p>
+            <div class="btn-group">
+                <a href="/general-chatbot" class="btn btn-primary">General Chatbot</a>
+                <a href="/subtitles-chatbot" class="btn btn-secondary">Subtitles Chatbot</a>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>

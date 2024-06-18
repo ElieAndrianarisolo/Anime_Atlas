@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='search.js')}}"></script>
+    <title>Recommendations</title>
+</head>
+<body>
+    <div id="header">
+        <h1><a href="/">Anime Atlas</a></h1>
+        <h2><a href="/recommendations">Recommend me</a></h2>
+        <h2><a href="/home-chatbot">Chat</a></h2>
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="Mod_name" placeholder="Enter anime name" list="anime-suggestions">
+            <datalist id="anime-suggestions">
+                <!-- Suggestions will be dynamically filled here -->
+            </datalist>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+
+    <div class="loading-state">
+        <div id="loading"></div>
+        <div id="loading-text">Wait, we are processing your recommendations...</div>
+    </div>
+
+    <div id="container-recommendation">
+        <div id="result-section-recommendation">
+            <div class="center-text">
+                <h2 class="title-search">Results</h2>
+            </div>
+            <ul class="anime-list">
+            </ul>
+        </div>
+
+        <div class= "filter-section-recommendation">
+            <div id="filter-card-recommendation" class="card-recommendation">
+                <form id="filter-form-recommendation">
+                    <div class="filter-subsection-recommendation">
+                        <label for="genre" class="bold-style" style="margin-top:10px">Genre&nbsp;:</label>
+                        <select class="form-select-recommendation custom-select-recommendation " name="genre" hx-get="/filter" hx-target="#result-section" hx-indicator="#loading" hx-trigger="change">
+                            <option value="">Select Genre</option>
+                            <option value="Action">Action</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Music">Music</option>
+                            <option value="Romance">Romance</option>
+                            <option value="School">School</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Sports">Sports</option>
+                            <!-- Add more genres as needed -->
+                        </select>
+                    </div>
+                    <div class="filter-subsection-recommendation">
+                        <label for="type" class="bold-style" style="margin-top:10px">Type&nbsp;:</label>
+                        <select class="form-select-recommendation custom-select-recommendation " name="type" hx-get="/filter" hx-target="#result-section" hx-indicator="#loading" hx-trigger="change">
+                            <option value="">Select Type</option>
+                            <option value="TV">TV</option>
+                            <option value="Movie">Movie</option>
+                            <option value="Music">Music</option>
+                            <option value="ONA">ONA</option>
+                            <option value="OVA">OVA</option>
+                            <option value="Special">Special</option>
+                        </select>
+                    </div>
+                    <div class="form-check mb-3 form-check-recommendation" style="margin-top: 20px;">
+                        <input class="form-check-input" type="checkbox" id="exclude-same-series" name="exclude-same-series" value="exclude-same-series">
+                        <label class="form-check-label form-check-label-recommendation" for="exclude-same-series">Exclude anime from the same series</label>
+                    </div>
+                    <div class="form-check form-check-recommendation" id="merge-slider-container" style="margin-top: 20px; margin-left: -15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Collaborative</span>
+                            <div style="display: flex; align-items: center;">
+                                <input type="range" class="form-range" id="merge-slider" name="merge-slider" min="0" max="1" step="0.01" value="0.5" style="width: 150px;">
+                            </div>
+                            <span>Content</span>
+                        </div>
+                        <span id="merge-slider-value" name="values">0.5</span>
+                        <input type="hidden" id="merge-slider-value-input" name="merge-slider-value" value="0.5">
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <button type="submit" class="filter-button button-recommendation" style=" position: fixed; margin-top: 15px; right: 20px; color: black; 
+                        background-color: rgb(246, 195, 255); font-weight: bold">Apply filters</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#container-recommendation").css("display", "none");
+
+            $.ajax({
+                url: "/fetch_recommendations",
+                type: "GET",
+                success: function(data) {
+                    $(".loading-state").remove();
+                    // Append fetched recommendations to the result section
+                    console.log(data)
+                    console.log(data.length)
+                    if (data.length === 0) {
+                        //console.log("bonjour")
+
+                         var noDataContent = '<div class="no-results" style="text-align: center;">';
+                         noDataContent += '<img src="/path_to_your_image/anime_not_found.png" alt="Anime not found" style="max-width: 100%; height: auto;">';
+                        $("#result-section-recommendation .anime-list").html(noDataContent);
+                    }else{
+                        var htmlContent = '';
+                        data.forEach(function(anime) {
+                            htmlContent += '<li class="anime-item">';
+                            htmlContent += '<a href="/description?Mod_name=' + encodeURIComponent(anime['Mod_name']) + '" style="display: block;">';
+                            htmlContent += '<div class="card-overlay">';
+                            htmlContent += '<strong style="font-size: 1.2em;">' + anime['Name'] + '</strong>';
+                            htmlContent += '<br></br>';
+                            htmlContent += '<div class="rating-container">';
+                            htmlContent += '<img src="' + anime['Image URL'] + '" alt="' + anime['Name'] + '" class="anime-image">';
+                            htmlContent += '</div>';
+                            htmlContent += '</div>';
+                            htmlContent += '</a>';
+                            htmlContent += '</li>';
+                        });
+                        $("#result-section-recommendation .anime-list").html(htmlContent);
+                    }
+
+                    $("#result-section-recommendation .anime-list").html(htmlContent);
+                    $("#container-recommendation").css("display", "block");
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
+
+<script>
+    $(document).ready(function() {
+        $(".filter-button").click(function(event) {
+            event.preventDefault();
+            $("#container-recommendation").css("display", "none");
+
+            var loadingStateDiv = $('<div class="loading-state"></div>');
+            var loadingDiv = $('<div id="loading"></div>');
+            loadingStateDiv.append(loadingDiv);
+            var loadingTextDiv = $('<div id="loading-text">Wait, we are processing your recommendations...</div>');
+            loadingStateDiv.append(loadingTextDiv);
+            $('body').append(loadingStateDiv);
+
+            var formData = $("#filter-form-recommendation").serialize();
+
+            $.ajax({
+                url: "/filter_recommendations?" + formData, // Pass form data as query parameters
+                type: "GET",
+                success: function(data) {
+                    $(".loading-state").remove();
+                    // Append fetched recommendations to the result section
+                    if (data.length === 0) {
+                    // If no data is returned, display a message
+                        var noDataContent = '<div class="no-results" >';
+                        noDataContent += '<img src="../static/images/Anime_not_found.png" alt="Anime not found" >';
+                        noDataContent += '</div>';
+                        $("#result-section-recommendation .anime-list").html(noDataContent);
+                    }else {
+                        var htmlContent = '';
+                        //console.log(data)
+                        data.forEach(function (anime) {
+                            htmlContent += '<li class="anime-item">';
+                            htmlContent += '<a href="/description?Mod_name=' + encodeURIComponent(anime['Mod_name']) + '" style="display: block;">';
+                            htmlContent += '<div class="card-overlay">';
+                            htmlContent += '<strong style="font-size: 1.2em;">' + anime['Name'] + '</strong>';
+                            htmlContent += '<br></br>';
+                            htmlContent += '<div class="rating-container">';
+                            htmlContent += '<img src="' + anime['Image URL'] + '" alt="' + anime['Name'] + '" class="anime-image">';
+                            htmlContent += '</div>';
+                            htmlContent += '</div>';
+                            htmlContent += '</a>';
+                            htmlContent += '</li>';
+                        });
+                        $("#result-section-recommendation .anime-list").html(htmlContent);
+                    }
+                    $("#container-recommendation").css("display", "block");
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Update the slider value display as the slider is moved
+        $('#merge-slider').on('input', function() {
+            $('#merge-slider-value').text(this.value);
+            $('#merge-slider-value-input').val($(this).val());
+        });
+    });
+</script>
+</body>
+</html>

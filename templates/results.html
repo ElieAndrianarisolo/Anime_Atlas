@@ -1,0 +1,30 @@
+<!-- results.html -->
+{% if results %}
+    <div class="center-text">
+        <h2 class="title-search">Search results</h2>
+    </div>
+    {% for anime in results %}
+        <div class="overlay">
+            <h1>
+                <a class="title-anime" href="/description?Mod_name={{ anime['Mod_name'] }}">
+                    {{ anime['English name'] if anime['English name'] != "UNKNOWN" else anime['Mod_name'] }}
+                </a>
+            </h1>
+            <div class="anime-display">
+                <img src="{{ anime['Image URL'] }}" alt="{{ anime['Name'] }}" class="img-fluid image-search-page">
+                <div class="anime-info">
+                    <p><strong>Synopsis&nbsp;:</strong> {{ anime['Synopsis'] }}</p>
+                    <p><strong>Genres&nbsp;:</strong> {{ anime['Genres'] }}</p>
+                    <p><strong>Type&nbsp;:</strong> {{ anime['Type'] }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+<div class="center-text">
+    <h2 class="title-search">Search results</h2>
+</div>
+<div class="center-text">
+    <h2 class="no-results-found">No results found.</h2>
+</div>
+{% endif %}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Recommender</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://fonts.cdnfonts.com/css/manga-temple" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='search.js')}}"></script>
+</head>
+
+<script>
+    const embedFilesSubtitlesChatbot = async () => {
+        await fetch('/embed_files');
+    }
+
+    const initializeGeneraChatbot = async () => {
+        await fetch('/initialize_general_chatbot');
+    }
+
+    initializeGeneraChatbot()
+    embedFilesSubtitlesChatbot()
+</script>
+
+<body class="page-index">
+    <div id="header">
+        <h1><a href="/">Anime Atlas</a></h1>
+        <h2><a href="/recommendations">Recommend me</a></h2>
+        <h2><a href="/home-chatbot">Chat</a></h2>
+
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="Mod_name" placeholder="Enter anime name" list="anime-suggestions">
+            <datalist id="anime-suggestions">
+                <!-- Suggestions will be dynamically filled here -->
+            </datalist>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+
+    <div class="rated-anime-list">
+        <h2 class="big-font">My Anime List</h2>
+        {% if rated_anime %}
+            <ul class="anime-list">
+                {% for mod_name, details in rated_anime.items() %}
+                <li class="anime-item">
+                    <a href="/description?Mod_name={{ mod_name | urlencode }}" class="display-block"> <!-- Add your URL here -->
+                        <div class="card-overlay">
+                            <strong class="small-font">{{ details['Name'] }}</strong>
+                            <br></br>
+                            <div class="rating-container">
+                                <img src="{{ details['Image URL'] }}" alt="{{ details['Name'] }}" class="anime-image">
+                                <span class="rating">{{ details['User_rating'] }} / 10 </span>
+                            </div>
+                            <!-- Add more details as needed -->
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-list-message empty-messages">You haven't added any anime to the list. Start by exploring some anime !</p>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

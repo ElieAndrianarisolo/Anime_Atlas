@@ -1,0 +1,631 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('images/placeholder.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Maintient l'image fixe lors du défilement */
+}
+
+.overlay {
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Couleur de fond semi-transparente */
+    padding: 20px;
+    margin: 50px;
+    backdrop-filter: blur(10px);
+    /* Effet de flou */
+    border-radius: 10px;
+    /* Ajoute des bords arrondis de 10px à tous les côtés */
+    overflow: hidden;
+    /* Pour s'assurer que le contenu à l'intérieur respecte les bords arrondis */
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    /* Pour aligner le titre à gauche et le formulaire à droite */
+    align-items: center;
+    /* Pour centrer verticalement les éléments */
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    /* Ajout de padding pour un meilleur aspect visuel */
+    box-sizing: border-box;
+    /* Pour inclure le padding dans la largeur totale */
+    width: 100%;
+    height: 84px;
+}
+
+h1 {
+    margin: 0;
+    /* Pour enlever les marges par défaut */
+    color: white;
+    font-family: "Bangers", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3em;
+}
+
+h2 {
+    margin: 0;
+    color: white;
+    font-family: "Bangers", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.5em;
+}
+
+form {
+    display: flex;
+    /* Pour aligner les éléments du formulaire sur une ligne */
+    width: 23%;
+    height: 38px;
+}
+
+input[type="text"] {
+    width: calc(100%);
+    padding: 10px;
+    margin-right: 10px;
+    /* Ajout d'une marge entre la barre de recherche et le bouton */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+input[type="text"]::placeholder {
+    font-size: 14px;
+    /* Taille de police pour le placeholder des barres de recherche */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #97a6ac;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Recommend-button {
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    margin-top: 30px;
+    font-size: 20px;
+    font-family: 'Manga Temple', sans-serif;
+    padding: 10px 20px;
+    background: linear-gradient(to bottom, #ff0000, #8b0000);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+}
+
+.Recommend-button:hover {
+    background: linear-gradient(to bottom, #8b0000, #ff0000);
+    /* Changement de couleur de fond lors du survol pour un effet de profondeur */
+    transform: scale(1.05);
+    /* Augmente légèrement la taille du bouton lors du survol pour un effet de "punch" */
+}
+
+button:hover {
+    background-color: #47ceff;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+datalist {
+    margin-top: 10px;
+}
+
+option {
+    background-color: #fff;
+    padding: 5px;
+}
+
+.label-select {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.select-input {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Style par défaut pour les liens */
+a {
+    color: white;
+    /* Couleur du texte blanc */
+    text-decoration: none;
+    /* Supprime le soulignement par défaut */
+    transition: color 0.3s ease;
+    /* Ajoute une transition pour une animation fluide */
+}
+
+/* Style au survol (hover) */
+a:hover {
+    color: rgba(13, 110, 253, 1); /* Réduit l'opacité du blanc pour rendre le lien plus transparent */
+}
+
+/* Style lorsque le lien est cliqué */
+a:active {
+    color: white; /* Retourne au blanc lorsque le lien est cliqué */
+}
+
+.rated-anime-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Ensures the text inside the h2 is centered */
+}
+
+.rated-anime-list h2 {
+    margin-top: 40px;
+    font-size: 40px; /* Larger font size for prominence */
+    font-weight: bold; /* Bold font weight for emphasis */
+    text-align: center; /* Center-align the text */
+    color: white;
+}
+
+#filter-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.anime-list {
+    list-style: none;
+    padding: 0;
+    display: flex; /* Use flexbox layout */
+    justify-content: center; /* Center the items horizontally */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    gap: 20px; /* Adjust the gap between items as needed */
+}
+
+.anime-item {
+    width: 350px; /* Fixed width for each item */
+    height: 450px; /* Fixed height for each item */
+    margin: 10px; /* Adjust margin as needed */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.anime-item:hover {
+    transform: scale(1.1); /* Slightly larger than the original size */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.anime-card {
+    border: 1px solid #ccc; /* Add a border for the card-like appearance */
+    padding: 10px; /* Add padding for spacing inside the card */
+    text-align: center; /* Center-align the content */
+    width: 350px; /* Fixed width for each item */
+    height: 400px; /* Fixed height for each item */
+    background-color: white;
+}
+
+.anime-image {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.card-overlay {
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.5); /* Couleur de fond semi-transparente */
+    color: black; /* Définit la couleur du texte en noir */
+    border-radius: 10px; /* Ajoute des bords arrondis de 10px à tous les côtés */
+    padding: 20px;
+    margin: 50px;
+    backdrop-filter: blur(10px); /* Effet de flou */
+    width: 300px; /* Largeur fixe pour toutes les cartes */
+    height: 450px; /* Hauteur fixe pour toutes les cartes */
+    overflow: hidden; /* Pour s'assurer que le contenu à l'intérieur respecte les bords arrondis */
+    display: flex; /* Utilise Flexbox pour le layout */
+    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre le contenu verticalement */
+    flex-direction: column; /* Organise les enfants en colonne */
+}
+
+.rating-container {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the middle */
+    gap: 30px; /* Adjust the gap between the image and the rating */
+}
+
+.rating {
+    font-size: 20px; /* Adjust the font size to 24 pixels */
+    font-weight: bold; /* Make the rating text bold for emphasis */
+    color: #333; /* Adjust the text color as needed */
+}
+
+.overlay strong {
+    color: black; /* Sets the text color to black */
+}
+
+.search-button{
+    color: black; 
+    background-color: rgb(246, 195, 255); 
+    font-weight: bold;
+}
+
+.title-anime{
+    margin: 0;
+    color: rgb(0, 0, 0);
+    font-family: "Bangers", system-ui;
+    font-weight: 650;
+    font-style: normal;
+    font-size: 1.1em;
+}
+
+.anime-display {
+    display: flex; /* Active Flexbox */
+    align-items: flex-start; /* Alignement vertical au début pour s'assurer que les éléments sont alignés en haut */
+    gap: 20px; /* Espace entre l'image et les informations */
+}
+
+.anime-info {
+    display: flex;
+    margin-top:4vh;
+    flex-direction: column; /* Organise les informations en colonne */
+    justify-content: flex-start; /* Alignement vertical au début */
+}
+
+#container-filters{
+    display: flex;
+    justify-content: center; /* Centre les éléments horizontalement */
+    align-items: center; /* Centre les éléments verticalement */
+    flex-direction: column; /* Empile les éléments verticalement */
+    height: 100%; /* Assurez-vous que le conteneur prend la hauteur totale de son parent si nécessaire */
+    margin-top: 4vh;
+    margin-left:2vh;
+    width: 17%;
+}
+
+.filter-section {
+    display: flex;
+    justify-content: center; /* Centre les éléments horizontalement */
+    align-items: center; /* Centre les éléments verticalement */
+    flex-direction: column; /* Empile les éléments verticalement */
+    height: 100%; /* Assurez-vous que le conteneur prend la hauteur totale de son parent si nécessaire */
+    border: 1px solid #ccc;
+    border-radius: 1.2vh;
+    padding-left: 15vh;
+    padding-right: 15vh;
+    padding-top: 1vh;
+    padding-bottom: 20vh;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+#result-section{
+    margin-left:2vh;
+    width: 80%;
+}
+
+.title-search{
+    margin-top: 2vh; 
+    font-size: 4em; 
+    font-weight: 600;
+}
+
+.title-search-filters{
+    margin-top: 2vh; 
+    font-size: 2.5em; 
+    font-weight: 600;
+    color: black;
+}
+
+.filter-section-title{
+    margin-top: 1.5vh; 
+    font-size: 1.3em; 
+    font-weight: 600;
+    color: black;
+}
+
+.filter-subsection{
+    display: flex;
+    justify-content: center; /* Centre les éléments horizontalement dans le conteneur */
+    align-items: center; /* Centre les éléments verticalement */
+    gap: 10px; /* Ajoute un petit espace entre le label et le select */
+}
+
+.custom-select {
+    margin-top: 1.8vh;
+    width: 15.7vh; 
+    border-radius: 1.2vh;
+}
+
+select {
+    flex-grow: 1; /* Permet au select de s'étendre pour remplir l'espace disponible */
+    max-width: 300px; /* Limite la largeur du select pour éviter qu'il ne devienne trop large */
+}
+
+.content-row {
+    padding-top: 3vh;
+    display: flex;
+    align-items: center; /* Centre les éléments verticalement */
+    justify-content: flex-start; /* Alignement à gauche */
+}
+
+.rating-box {
+    display: flex;
+    flex-direction: column; /* Organise les éléments en colonne */
+    width: 100%; /* Prend la pleine largeur pour mieux structurer les éléments */
+    padding-left: 4vh; /* Ajoute un espacement à gauche */
+}
+
+.anime-info-grid {
+    display: grid;
+    margin-top: 1.4vh;
+    grid-template-columns: 1fr 1fr; /* Crée deux colonnes de taille égale */
+    gap: 1vh; /* Ajoute un espace entre les colonnes et les lignes */
+    width: 100%;
+}
+
+.apply-filter-button{
+    color: black; 
+    background-color: rgb(246, 195, 255); 
+    font-weight: bold;
+    margin-left: -7.5vh; 
+    margin-top: 2vh;
+    width: 15vh; 
+    white-space: nowrap;
+}
+
+.loading{
+    display:none;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.image-search-page{
+    margin-bottom:20px; 
+    margin-top:30px; 
+    border-radius: 10px;
+}
+
+.no-results-found{
+    font-weight: 600; 
+    font-size: 1.5em; 
+    margin-top: 5vh
+}
+
+.no-results {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Takes full viewport height */
+        margin: 0;
+        margin-left : 15px;
+        padding: 0;
+}
+
+.no-results img {
+        max-width: 50%; /* Adjust image size as needed */
+        height: auto;
+        border-radius: 20px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds shadow for better visibility */
+}
+
+.big-font{
+    font-size: 4em;
+}
+
+.display-block{
+    display: block;
+}
+
+.small-font{
+    font-size: 1.2em;
+}
+
+.empty-messages{
+    color: white; 
+    font-weight: 600; 
+    margin-top: 15px;
+}
+
+.name-anime-description{
+    margin-bottom:1.6vh; 
+    color: black; 
+    font-weight: 600; 
+    text-align: center;
+}
+
+.image-description-page{
+    margin-bottom:18px; 
+    border-radius: 10px;
+}
+
+.bold-style{
+    font-weight: bold;
+}
+
+.rating-box-select{
+    margin-right: 2vh; 
+    border-radius: 1.1vh; 
+    text-align: center;
+}
+
+.submit-rating{
+    margin-right: 1vh;
+}
+
+#container-recommendation { 
+    display: flex;
+}
+
+.filter-section-recommendation {
+    position:fixed;
+    display: flex;
+    width: 100%;
+    bottom:0;
+}
+
+.form-range {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+#merge-slider-value {
+    margin-left: 186px;
+}
+
+#filter-form-recommendation {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 60px;
+}
+
+.filter-subsection-recommendation{
+    display: flex;
+    gap: 1.1vh; 
+    padding-top: 1.2vh; 
+    padding-left: 1.4vh; 
+}
+
+#result-section-recommendation { 
+    margin-left: 2vh;
+}
+
+.card-recommendation {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 1.2vh;
+    padding-right: 5vh;
+    padding-top: 1.2vh;
+    padding-bottom: 2vh;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.card-header-recommendation {
+    background-color: #007bff; /* Blue header */
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-bottom: 20px;
+}
+.form-card-recommendation {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    margin-bottom: 20px;
+}
+.form-card-recommendation label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.form-card-recommendation input[type="radio"] {
+    margin-right: 10px;
+}
+
+
+
+.method-recommendation{
+    white-space: nowrap; 
+    font-size: 1.85vh;
+    font-weight: bold;
+    display: flex;
+    justify-content: center; /* Centre les éléments horizontalement dans le conteneur */
+    align-items: center; /* Centre les éléments verticalement */
+    gap: 1.1vh; /* Ajoute un petit espace entre le label et le select */
+    margin-top: 1.5vh; 
+    margin-left: 10vh; 
+}
+
+.form-check-recommendation {
+    margin-left: 1.2vh;
+}
+.form-check-input {
+    margin-top: 7px;
+}
+
+.form-check-label-recommendation {
+    width: 35vh;
+    margin-top: 3px;
+    margin-right: -30px;
+}
+
+.custom-select-recommendation {
+    display: flex;
+    width: 15.7vh;
+    border-radius: 1.2vh;
+    margin-right: 16px;
+}
+
+.button-recommendation{
+    margin-left: 9.4vh;
+    width: 15vh;
+}
+
+
+.loading-state {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+    z-index: 9999; /* Ensure it's above other content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#loading {
+    width: 80px;
+    height: 80px;
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 20px;
+}
+
+#loading-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.anime-list li:last-child {
+    margin-bottom: 20vh; /* Ajustez cette valeur selon le besoin */
+}
