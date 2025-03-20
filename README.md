@@ -23,7 +23,7 @@ Here’s a preview of what the Anime Atlas application looks like in action:
 
 - **Search Results**: See the search results based on your query, with options to filter through various anime titles.
 
-  ![Search Results](./documentation/images_app/02_Search_Result.png)
+  ![Search Results](./documentation/images_app/02_Search_Results.png)
 
 - **Description Page**: Explore detailed descriptions of each anime and decide whether to add it to your liked list.
 
